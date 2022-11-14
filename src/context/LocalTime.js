@@ -12,8 +12,7 @@ const Timer = ({ duration, index, type }) => {
 
     console.log("useInterval called time: ", time, "duration: ", duration);
 
-    //why won't this work?
-    if (time === duration) {
+  if (`${time}` === `${duration}`){
       console.log("time===durcation, moving up index");
       setActiveIndex(index + 1);
     } else {
