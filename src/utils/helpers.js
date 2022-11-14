@@ -3,7 +3,7 @@
 // everywhere.
 
 //convert seconds to min:sec display
-export const doConvert = (s) => {
+export const convertToMinSec = (s) => {
     let minutes = Math.floor(s/60);
     let secs = s % 60;
     let final = minutes.toString().padStart(2,'0') + ':' + secs.toString().padStart(2,'0');

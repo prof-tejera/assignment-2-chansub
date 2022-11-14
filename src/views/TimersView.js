@@ -7,6 +7,8 @@ import XY from "../components/timers/XY";
 import Tabata from "../components/timers/Tabata";
 
 
+
+
 const Timers = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,7 +22,7 @@ const Timer = styled.div`
   font-size: 1.5rem;
   width: 320px;
   text-align: center;
-  background-color: darkgrey;
+  background-color: #D2D2D2;
   border-radius: 3%;
 `;
 
@@ -35,20 +37,22 @@ const TimersView = () => {
   ];
 
   useEffect(() => {
-    document.title = "Susana T. - Assignment 1 - Timers";  
+    document.title = "Susana T. - Assignment 2 - Timers";  
   }, []);
 
   return (
-    <Timers>
-      {timers.map((timer) => (
-        <Timer key={`timer-${timer.title}`}>
-          <TimerTitle>{timer.title}</TimerTitle>
-          {timer.C}
-          {timer.b}
-          {timer.be}
-        </Timer>
-      ))}
-    </Timers>
+    
+      <Timers>
+        {timers.map((timer) => (
+          <Timer key={`timer-${timer.title}`}>
+            <TimerTitle>{timer.title}</TimerTitle>
+            {timer.C}
+            {timer.b}
+            {timer.be}
+          </Timer>
+        ))}
+      </Timers>
+    
   );
 };
 

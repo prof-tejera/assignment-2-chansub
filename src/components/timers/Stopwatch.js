@@ -2,7 +2,7 @@ import { useEffect, useState} from "react";
 import Panel from "../generic/Panel.js";
 import DisplayTime from "../generic/DisplayTime.js";
 import Button from "../generic/Button.js";
-import { doConvert } from "../../utils/helpers";
+import { convertToMinSec } from "../../utils/helpers";
 
 //I took some inspiration from https://dmitripavlutin.com/react-useeffect-explanation/ 
 //and https://stackoverflow.com/questions/61923862/how-to-pause-a-setinterval-countdown-timer-in-react
@@ -54,7 +54,7 @@ const StopWatch = () => {
     return (
         <>
         <Panel className="output">
-            <DisplayTime time={doConvert(seconds)}/>
+            <DisplayTime time={convertToMinSec(seconds)}/>
         </Panel>
         <Panel className="buttons">
             <Button className={(pause)?'btn-start':'btn-pause'} text={(pause)?'Start':'Pause'} onClick={handlePauseToggle} disabled={(seconds === maxSeconds) ? true:false}/>

@@ -1,9 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useLocation, BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import DocumentationView from "./views/DocumentationView";
 import TimersView from "./views/TimersView";
+import AddView from "./views/AddView";
+import HomeView from "./views/HomeView";
+
+
+import LocalTime from "./context/LocalTime";
+import AppProvider, { AppContext } from "./context/ContextProvider";
+import Dropdown from "./components/generic/Dropdown";
+
 
 
 const Container = styled.div`
@@ -14,6 +22,26 @@ const Container = styled.div`
 const myStyle = {
   listStyleType: "none"
 }
+
+
+
+const BodyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const Body = styled.div`
+  border: 1px solid gray;
+  padding: 20px;
+  margin: 10px;
+  font-size: 1.5rem;
+  width: 500px;
+  text-align: center;
+  background-color: lightgrey;
+  border-radius: 3%;
+`;
+
 
 const Nav = () => {
   //idea from https://medium.com/how-to-react/add-an-active-classname-to-the-link-using-react-router-b7c350473916
@@ -31,27 +59,81 @@ const Nav = () => {
     <nav>                     
       <ul style={myStyle}>
         <li className={(splitLocation[1] === '' ? 'active':'')}>
-          <Link to="/">Timers</Link>
+          <Link to="/">Home</Link>
+        </li>
+        <li className={(splitLocation[1] === 'add' ? 'active':'')}>
+          <Link to="/add">Add</Link>
+        </li>
+        <li className={(splitLocation[1] === 'timers' ? 'active':'')}>
+          <Link to="/timers">Timers</Link>
         </li>
         <li className={(splitLocation[1] === 'docs' ? 'active':'')}>
           <Link to="/docs">Documentation</Link>
         </li>
+
       </ul>
     </nav>
   );
 };
 
+const Timer = LocalTime;
+
+const Inner = () => {
+  const { queue, addItem, paused, setPaused, reset } = useContext(AppContext);
+
+  const handleDropdownChange = (e) => {
+    
+    console.log("handleDropdownChange called", e);
+    
+    
+  }
+
+  return (
+    <div>
+      Stopwatch <Dropdown ddID="stopwatchSecs" onChange="handleDropdownChange"/> Seconds 
+      <button
+        onClick={() => {
+          addItem({
+            duration: Math.floor(Math.random() * 10) + 3
+          });
+        }}
+      >
+        Add Stopwatch
+      </button>
+
+
+      <button
+        onClick={() => {
+          setPaused(!paused);
+        }}
+      >
+        {paused ? "Run" : "Pause"}
+      </button>
+      <button onClick={reset}>Reset</button>
+      <div className="queue">
+        {queue.map((t, i) => (
+          <Timer key={i} index={i} duration={t.duration} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   return (
+    <AppProvider>
     <Container>
       <Router>
         <Nav />
         <Routes>
+          <Route path="/" element={<HomeView/>} />
           <Route path="/docs" element={<DocumentationView />} />
-          <Route path="/" element={<TimersView />} />
+          <Route path="/timers" element={<TimersView />} />
+          <Route path="/add" element={<BodyContainer><Body><Inner /></Body></BodyContainer>} />
         </Routes>
       </Router>
     </Container>
+    </AppProvider>
   );
 };
 

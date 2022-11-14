@@ -24,7 +24,7 @@ const Title = styled.div`
  */
 const Documentation = () => {
   useEffect(() => {
-    document.title = 'Susana T. - Assignment 1 - Documentation';
+    document.title = 'Susana T. - Assignment 2 - Documentation';
   },[])
 
   return (

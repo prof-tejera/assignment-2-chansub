@@ -3,7 +3,7 @@ import Panel from "../generic/Panel.js";
 import Button from "../generic/Button.js";
 import DisplayTime  from "../generic/DisplayTime.js";
 import DisplayRounds from "../generic/DisplayRounds.js";
-import { doConvert } from "../../utils/helpers";
+import { convertToMinSec } from "../../utils/helpers";
 
 
 const XY = () => {
@@ -61,7 +61,7 @@ const XY = () => {
         <Panel className="output">
             <Panel>
               <DisplayRounds rounds={rounds}></DisplayRounds>
-              <DisplayTime time={doConvert(seconds)}/>
+              <DisplayTime time={convertToMinSec(seconds)}/>
             </Panel>
         </Panel>
         

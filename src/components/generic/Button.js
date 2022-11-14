@@ -3,16 +3,16 @@ import playIcon from '../../images/icons8-play-96.png';
 import pauseIcon from '../../images/icons8-pause-96.png';
 import resetIcon from '../../images/icons8-replay-96.png';
 import stopIcon from '../../images/icons8-stop-96.png';
-
 //Note: icons downloaded from https://icons8.com
 
 const Button = ({ text, ...btnProps }) => {
 
   return (
+
     <button
       {...btnProps}
     >
-
+      
     {text === 'Start' &&
       <img src={playIcon} width="30" alt="Start" title="Start"/>
     }

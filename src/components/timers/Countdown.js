@@ -2,7 +2,7 @@ import { useEffect, useState} from "react";
 import Panel from "../generic/Panel.js";
 import Button from "../generic/Button.js";
 import DisplayTime  from "../generic/DisplayTime.js";
-import { doConvert } from "../../utils/helpers";
+import { convertToMinSec } from "../../utils/helpers";
 
 
 const Countdown = () => {
@@ -51,7 +51,7 @@ const Countdown = () => {
         <>
 
         <Panel className="output">
-            <DisplayTime time={doConvert(seconds)}/>
+            <DisplayTime time={convertToMinSec(seconds)}/>
         </Panel>
         <Panel className="buttons">
             <Button className={(pause)?'btn-start':'btn-pause'} text={(pause)?'Start':'Pause'} onClick={handlePauseToggle} disabled={(seconds === 0)? true:false}/>

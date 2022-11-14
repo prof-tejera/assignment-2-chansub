@@ -9,7 +9,7 @@ button{
 
 button:disabled{
     background-color: rgb(202, 200, 200);
-    cursor: none;
+    cursor: not-allowed;
 }
 button:disabled img{
     opacity: .25;
