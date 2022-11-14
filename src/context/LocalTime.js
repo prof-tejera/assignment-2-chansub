@@ -12,6 +12,7 @@ const Timer = ({ duration, index, type }) => {
 
     console.log("useInterval called time: ", time, "duration: ", duration);
 
+    //why won't this work?
     if (time === duration) {
       console.log("time===durcation, moving up index");
       setActiveIndex(index + 1);
@@ -28,8 +29,8 @@ const Timer = ({ duration, index, type }) => {
         backgroundColor: active ? "yellow" : "white"
       }}
     >
-      {type} Timer - Duration: {duration} - {" "}
-      {active && <span>Progress: {time}  ActiveIndex: {activeIndex}</span>}
+      Timer: {type} - Duration: {duration} 
+      {active && <span><em> (Progress: {time}, ActiveIndex: {activeIndex})</em></span>}
     </div>
   );
 };

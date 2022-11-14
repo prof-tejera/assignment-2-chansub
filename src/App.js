@@ -20,6 +20,10 @@ const Container = styled.div`
 const myStyle = {
   listStyleType: "none"
 }
+const QueueStyle = {
+  fontSize: "14px"
+}
+
 
 const BodyContainer = styled.div`
   display: flex;
@@ -37,6 +41,9 @@ const Body = styled.div`
   background-color: lightgrey;
   border-radius: 3%;
 `;
+
+
+
 
 
 const Nav = () => {
@@ -125,7 +132,7 @@ const Inner = () => {
           {paused ? "Run" : "Pause"}
         </button>
         <button onClick={reset}>Reset</button>
-        <div className="queue">
+        <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
             <Timer key={i} index={i} duration={t.duration} type={t.type}/>
           ))}
