@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { useInterval } from "./hooks";
+import { useInterval } from "../hooks";
 import { AppContext } from "./ContextProvider";
 
-const Timer = ({ duration, index }) => {
+const Timer = ({ duration, index, type }) => {
   const { activeIndex, paused, setActiveIndex } = useContext(AppContext);
   const [time, setTime] = useState(0);
   const active = activeIndex === index;
@@ -10,21 +10,26 @@ const Timer = ({ duration, index }) => {
   useInterval(() => {
     if (paused || !active) return;
 
+    console.log("useInterval called time: ", time, "duration: ", duration);
+
     if (time === duration) {
+      console.log("time===durcation, moving up index");
       setActiveIndex(index + 1);
     } else {
+      console.log("setTime called");
       setTime((c) => c + 1);
+
     }
   }, 1000);
 
   return (
-    <div
+    <div id={'q'+index}
       style={{
-        backgroundColor: active ? "red" : "white"
+        backgroundColor: active ? "yellow" : "white"
       }}
     >
-      Timer - Duration: {duration} -{" "}
-      {active && <span>Progress: {time}</span>}
+      {type} Timer - Duration: {duration} - {" "}
+      {active && <span>Progress: {time}  ActiveIndex: {activeIndex}</span>}
     </div>
   );
 };

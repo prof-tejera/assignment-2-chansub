@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import { useLocation, BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -12,8 +12,6 @@ import LocalTime from "./context/LocalTime";
 import AppProvider, { AppContext } from "./context/ContextProvider";
 import Dropdown from "./components/generic/Dropdown";
 
-
-
 const Container = styled.div`
   background: #f0f6fb;
   height: 100vh;
@@ -22,8 +20,6 @@ const Container = styled.div`
 const myStyle = {
   listStyleType: "none"
 }
-
-
 
 const BodyContainer = styled.div`
   display: flex;
@@ -80,42 +76,61 @@ const Timer = LocalTime;
 
 const Inner = () => {
   const { queue, addItem, paused, setPaused, reset } = useContext(AppContext);
-
-  const handleDropdownChange = (e) => {
+  const [secondsStopwatch, setSecondsStopwatch] = useState(0);
+  const [secondsCountdown, setSecondsCountdown] = useState(0);
     
-    console.log("handleDropdownChange called", e);
-    
-    
-  }
 
   return (
+    <>
+    
     <div>
-      Stopwatch <Dropdown ddID="stopwatchSecs" onChange="handleDropdownChange"/> Seconds 
+      Stopwatch <Dropdown id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
+        setSecondsStopwatch(e.target.value);
+      } } /> Seconds
       <button
         onClick={() => {
           addItem({
-            duration: Math.floor(Math.random() * 10) + 3
+            duration: secondsStopwatch,
+            type: 'Stopwatch'
           });
-        }}
+        } }
       >
-        Add Stopwatch
+        Add
       </button>
+    </div>
 
-
+    <div>
+      Countdown <Dropdown id="selectCountdown" value={secondsCountdown} onChange={(e) => {
+        setSecondsCountdown(e.target.value);
+      } } /> Seconds
       <button
         onClick={() => {
-          setPaused(!paused);
-        }}
+          addItem({
+            duration: secondsCountdown,
+            type: 'Countdown'
+          });
+        } }
       >
-        {paused ? "Run" : "Pause"}
+        Add
       </button>
-      <button onClick={reset}>Reset</button>
-      <div className="queue">
-        {queue.map((t, i) => (
-          <Timer key={i} index={i} duration={t.duration} />
-        ))}
-      </div>
     </div>
+    
+    
+    <div>
+        <button
+          onClick={() => {
+            setPaused(!paused);
+          } }
+        >
+          {paused ? "Run" : "Pause"}
+        </button>
+        <button onClick={reset}>Reset</button>
+        <div className="queue">
+          {queue.map((t, i) => (
+            <Timer key={i} index={i} duration={t.duration} type={t.type}/>
+          ))}
+        </div>
+      </div></>
   );
 };
 
