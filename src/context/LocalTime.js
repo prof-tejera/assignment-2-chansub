@@ -34,7 +34,7 @@ const Timer = ({ duration, index, type, isHome }) => {
           backgroundColor: active ? "yellow" : "white"
         }}
       >
-        <button onClick={() => removeItem(index)} style={{display: (!isHome) ? 'inline-block' : 'none'}}>Remove</button>
+        <button onClick={() => removeItem(index)} style={{display: (isHome === 'no') ? 'inline-block' : 'none'}}>Remove</button>
 
         {type} -       
         <DisplayTime time={convertToMinSec(duration)}/>

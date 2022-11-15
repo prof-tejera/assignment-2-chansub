@@ -8,7 +8,7 @@ import HomeView from "./views/HomeView";
 
 import LocalTime from "./context/LocalTime";
 import AppProvider, { AppContext } from "./context/ContextProvider";
-import Dropdown from "./components/generic/Dropdown";
+import Dropdown, {DropdownTime, DropdownRounds} from "./components/generic/Dropdown";
 
 const Container = styled.div`
   background: #f0f6fb;
@@ -39,9 +39,6 @@ const Body = styled.div`
   background-color: lightgrey;
   border-radius: 3%;
 `;
-
-
-
 
 
 const Nav = () => {
@@ -80,18 +77,43 @@ const Nav = () => {
 const Timer = LocalTime;
 
 const Inner = () => {
+  const initialSeconds = 5;
   const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
-  const [secondsStopwatch, setSecondsStopwatch] = useState(0);
-  const [secondsCountdown, setSecondsCountdown] = useState(0);
+  const [secondsStopwatch, setSecondsStopwatch] = useState(initialSeconds);
+  const [secondsCountdown, setSecondsCountdown] = useState(initialSeconds);
 
   return (
     <>
+
     <div>
-      Stopwatch <Dropdown id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
+      XY <DropdownRounds id="selectXY" />
+       &nbsp; @ &nbsp;  
+      <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
+        
         setSecondsStopwatch(e.target.value);
-      } } /> Seconds
+      } } />  each
       <button
         onClick={() => {
+          addItem({
+            duration: secondsStopwatch,
+            type: 'XY'
+          });
+        } }
+      >
+        Add
+      </button>
+    </div>
+
+
+    <div>
+      Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
+        
+        setSecondsStopwatch(e.target.value);
+      } } /> 
+      <button
+        onClick={() => {
+          console.log("stopwatch set", secondsStopwatch);
+
           addItem({
             duration: secondsStopwatch,
             type: 'Stopwatch'
@@ -103,9 +125,9 @@ const Inner = () => {
     </div>
 
     <div>
-      Countdown <Dropdown id="selectCountdown" value={secondsCountdown} onChange={(e) => {
+      Countdown <DropdownTime id="selectCountdown" value={secondsCountdown} onChange={(e) => {
         setSecondsCountdown(e.target.value);
-      } } /> Seconds
+      } } /> 
       <button
         onClick={() => {
           addItem({
@@ -134,7 +156,7 @@ const Inner = () => {
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
-            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="false()"/>
+            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="no"/>
           ))}
         </div>
       </div></>
@@ -163,7 +185,7 @@ const InnerHome = () => {
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
-            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="true()"/>
+            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="yes"/>
           ))}
         </div>
       </div></>
