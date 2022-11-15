@@ -131,7 +131,9 @@ const Inner = () => {
         >
           {paused ? "Run" : "Pause"}
         </button>
+        
         <button onClick={reset}>Reset</button>
+
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
             <Timer key={i} index={i} duration={t.duration} type={t.type}/>
