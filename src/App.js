@@ -121,13 +121,13 @@ const Inner = () => {
         Add
       </button>
     </div>
-    
-    
+        
     <div>
         <button
           onClick={() => {
             setPaused(!paused);
           } }
+          disabled={(queue.length < 1)}
         >
           {paused ? "Run" : "Pause"}
         </button>

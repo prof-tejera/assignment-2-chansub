@@ -37,7 +37,7 @@ const Timer = ({ duration, index, type }) => {
         }}
       >
         Timer: {type} - Duration: {duration} 
-        {active && <span><em> (Progress: {time}, ActiveIndex: {activeIndex})</em></span>}
+        {active && <span><em> (Progress: {time})</em></span>}
       </div>
     );
 };
