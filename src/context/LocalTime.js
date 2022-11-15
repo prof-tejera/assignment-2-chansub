@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useInterval } from "../hooks";
 import { AppContext } from "./ContextProvider";
 
-const Timer = ({ duration, index, type }) => {
+const Timer = ({ duration, index, type, isHome }) => {
   const { activeIndex, paused, setActiveIndex, removeItem} = useContext(AppContext);
   const [time, setTime] = useState(0);
   const active = activeIndex === index;
@@ -31,7 +31,8 @@ const Timer = ({ duration, index, type }) => {
           backgroundColor: active ? "yellow" : "white"
         }}
       >
-        <button onClick={() => removeItem(index)} disabled={(active)? true : false}>Remove</button>
+        
+        <button onClick={() => removeItem(index)} style={{display: (!isHome) ? 'inline-block' : 'none'}}>Remove</button>
 
         Timer: {type} - Duration: {duration} 
         {active && <span><em> (Progress: {time})</em></span>}

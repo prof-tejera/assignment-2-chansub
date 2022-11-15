@@ -4,9 +4,7 @@ import styled from "styled-components";
 
 import DocumentationView from "./views/DocumentationView";
 import TimersView from "./views/TimersView";
-import AddView from "./views/AddView";
 import HomeView from "./views/HomeView";
-
 
 import LocalTime from "./context/LocalTime";
 import AppProvider, { AppContext } from "./context/ContextProvider";
@@ -85,11 +83,9 @@ const Inner = () => {
   const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(0);
   const [secondsCountdown, setSecondsCountdown] = useState(0);
-    
 
   return (
     <>
-    
     <div>
       Stopwatch <Dropdown id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
         setSecondsStopwatch(e.target.value);
@@ -138,7 +134,36 @@ const Inner = () => {
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
-            <Timer key={i} index={i} duration={t.duration} type={t.type}/>
+            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="false()"/>
+          ))}
+        </div>
+      </div></>
+  );
+};
+
+const InnerHome = () => {
+  const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
+
+  return (
+    <>
+        
+    <div>
+        <button
+          onClick={() => {
+            setPaused(!paused);
+          } }
+          disabled={(queue.length < 1)}
+        >
+          {paused ? "Run" : "Pause"}
+        </button>
+        
+        <button onClick={reset}>Reset</button>
+
+        <button onClick={clear}>Clear</button>
+
+        <div className="queue" style={QueueStyle}>
+          {queue.map((t, i) => (
+            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="true()"/>
           ))}
         </div>
       </div></>
@@ -152,7 +177,7 @@ const App = () => {
       <Router>
         <Nav />
         <Routes>
-          <Route path="/" element={<HomeView/>} />
+          <Route path="/" element={<BodyContainer><Body><InnerHome /></Body></BodyContainer>} />
           <Route path="/docs" element={<DocumentationView />} />
           <Route path="/timers" element={<TimersView />} />
           <Route path="/add" element={<BodyContainer><Body><Inner /></Body></BodyContainer>} />
