@@ -2,6 +2,9 @@ import { useContext, useState } from "react";
 import { useInterval } from "../hooks";
 import { AppContext } from "./ContextProvider";
 
+import DisplayTime  from "../components/generic/DisplayTime.js";
+import { convertToMinSec } from "../utils/helpers";
+
 const Timer = ({ duration, index, type, isHome }) => {
   const { activeIndex, paused, setActiveIndex, removeItem} = useContext(AppContext);
   const [time, setTime] = useState(0);
@@ -31,11 +34,18 @@ const Timer = ({ duration, index, type, isHome }) => {
           backgroundColor: active ? "yellow" : "white"
         }}
       >
-        
         <button onClick={() => removeItem(index)} style={{display: (!isHome) ? 'inline-block' : 'none'}}>Remove</button>
 
-        Timer: {type} - Duration: {duration} 
-        {active && <span><em> (Progress: {time})</em></span>}
+        {type} -       
+        <DisplayTime time={convertToMinSec(duration)}/>
+        {
+            (() => {
+                if(active && type==='Stopwatch'){return (<span> (Progress: {convertToMinSec(time)})</span>)}
+                if(active && type==='Countdown'){return (<span> (Progress: {convertToMinSec(duration-time)})</span>)}
+            })()  
+        }  
+
+        
       </div>
     );
 };
