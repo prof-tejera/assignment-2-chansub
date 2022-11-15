@@ -82,7 +82,7 @@ const Nav = () => {
 const Timer = LocalTime;
 
 const Inner = () => {
-  const { queue, addItem, paused, setPaused, reset } = useContext(AppContext);
+  const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(0);
   const [secondsCountdown, setSecondsCountdown] = useState(0);
     
@@ -133,6 +133,8 @@ const Inner = () => {
         </button>
         
         <button onClick={reset}>Reset</button>
+
+        <button onClick={clear}>Clear</button>
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (

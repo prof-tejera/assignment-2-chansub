@@ -16,12 +16,16 @@ const AppProvider = ({ children }) => {
         paused,
         setPaused,
         reset: () => {
+          setActiveIndex(0);
+        },
+        clear: () => {
           setQueue([]);
           setActiveIndex(0);
           setPaused(true);
           console.log("Reset hit");
         },
         addItem: (item) => setQueue((q) => [...q, item]),
+        removeItem: (index) => setQueue(queue.filter((q, i) => i !== index)),
         queue,
         setQueue,
         message,

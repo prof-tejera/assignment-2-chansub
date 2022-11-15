@@ -49,7 +49,6 @@ const Countdown = () => {
 
     return (
         <>
-
         <Panel className="output">
             <DisplayTime time={convertToMinSec(seconds)}/>
         </Panel>
