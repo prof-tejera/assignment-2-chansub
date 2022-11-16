@@ -4,50 +4,54 @@ import { AppContext } from "./ContextProvider";
 
 import DisplayTime  from "../components/generic/DisplayTime.js";
 import { convertToMinSec } from "../utils/helpers";
+import Button from "../components/generic/Button";
 
 const Timer = ({ duration, index, type, isHome }) => {
-  const { activeIndex, paused, setActiveIndex, removeItem} = useContext(AppContext);
+  const { activeIndex, paused, setPaused, setActiveIndex, removeItem, queue} = useContext(AppContext);
   const [time, setTime] = useState(0);
-  const active = activeIndex === index;
+  const active = activeIndex === index; //when activeIndex === index, set active = true
 
   useInterval(() => {
+    //if end has reached, reset 
+    if(activeIndex === queue.length){
+      console.log("End reached!");
+      setPaused(true);
+      setActiveIndex(0);
+      setTime(0);
+      return;
+    }
+    
     if (paused || !active) return;
-       
-    //If end has reached, reset everything
-    // if((queue.length-1) === activeIndex) {
-    //   console.log("End reached!");
-    //   setActiveIndex(0);
-    //   setPaused(true);
-    //   return;
-    // } 
-
+    
     if (`${time}` === `${duration}`){
         setActiveIndex(index + 1);
-      } else {
+    } 
+    else {
         setTime((c) => c + 1);
-      }
-    }, 1000);
+    }
+  }, 1000);
 
-    return (
+  return (
+
       <div id={'q'+index}
         style={{
           backgroundColor: active ? "yellow" : "white"
         }}
       >
-        <button onClick={() => removeItem(index)} style={{display: (isHome === 'no') ? 'inline-block' : 'none'}}>Remove</button>
+        <Button onClick={() => removeItem(index)} style={{display: (isHome === 'no') ? 'inline-block' : 'none'}} text="Remove"/>
 
         {type} -       
         <DisplayTime time={convertToMinSec(duration)}/>
         {
             (() => {
-                if(active && type==='Stopwatch'){return (<span> (Progress: {convertToMinSec(time)})</span>)}
-                if(active && type==='Countdown'){return (<span> (Progress: {convertToMinSec(duration-time)})</span>)}
+                if(active && type !== 'Countdown'){return (<span> (Progress: {convertToMinSec(time)})</span>)}
+                if(active && type === 'Countdown'){return (<span> (Progress: {convertToMinSec(duration-time)})</span>)}
             })()  
         }  
 
         
       </div>
-    );
+  );
 };
 
 export default Timer;

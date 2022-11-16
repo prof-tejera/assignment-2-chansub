@@ -9,6 +9,7 @@ import HomeView from "./views/HomeView";
 import LocalTime from "./context/LocalTime";
 import AppProvider, { AppContext } from "./context/ContextProvider";
 import Dropdown, {DropdownTime, DropdownRounds} from "./components/generic/Dropdown";
+import Button from "./components/generic/Button";
 
 const Container = styled.div`
   background: #f0f6fb;
@@ -81,29 +82,14 @@ const Inner = () => {
   const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(initialSeconds);
   const [secondsCountdown, setSecondsCountdown] = useState(initialSeconds);
+  
+  const [roundsXY, setRoundsXY] = useState(1);
+  const [secondsXY, setSecondsXY] = useState(initialSeconds);
+  const [roundsTabata, setRoundsTabata] = useState(1);
+  const [secondsTabata, setSecondsTabata] = useState(initialSeconds);
 
   return (
     <>
-
-    <div>
-      XY <DropdownRounds id="selectXY" />
-       &nbsp; @ &nbsp;  
-      <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
-        
-        setSecondsStopwatch(e.target.value);
-      } } />  each
-      <button
-        onClick={() => {
-          addItem({
-            duration: secondsStopwatch,
-            type: 'XY'
-          });
-        } }
-      >
-        Add
-      </button>
-    </div>
-
 
     <div>
       Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
@@ -141,18 +127,57 @@ const Inner = () => {
     </div>
         
     <div>
-        <button
-          onClick={() => {
-            setPaused(!paused);
-          } }
-          disabled={(queue.length < 1)}
-        >
-          {paused ? "Run" : "Pause"}
-        </button>
-        
-        <button onClick={reset}>Reset</button>
+      XY <DropdownRounds id="selectXYRounds" value={roundsXY} onChange={(e) => {
+        setRoundsXY(e.target.value);
+      }}/>
+       &nbsp; @ &nbsp;  
+      <DropdownTime id="selectXY" value={secondsXY} onChange={(e) => {
+        setSecondsXY(e.target.value);
+      } } />  each
+      <button
+        onClick={() => {
+          addItem({
+            duration: secondsXY*roundsXY,
+            type: 'XY'
+          });
+        } }
+      >
+        Add
+      </button>
+    </div>
 
-        <button onClick={clear}>Clear</button>
+    <div>
+      Tabata <DropdownRounds id="selectTabataRounds" value={roundsTabata} onChange={(e) => {
+        setRoundsTabata(e.target.value);
+      }}/>
+       &nbsp; @ &nbsp;  
+      <DropdownTime id="selectTabata" value={secondsTabata} onChange={(e) => {
+        setSecondsTabata(e.target.value);
+      } } />  each
+      <button
+        onClick={() => {
+          addItem({
+            duration: secondsTabata*roundsTabata,
+            type: 'Tabata'
+          });
+        } }
+      >
+        Add
+      </button>
+    </div>
+
+
+    <div>
+        <Button onClick={() => {
+            setPaused(!paused);
+          } } 
+          text={paused ? "Start" : "Pause"}
+          disabled={(queue.length < 1)}
+          />
+
+        <Button onClick={reset} text="End"/>
+
+        <Button onClick={clear} text="Reset"/>
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
@@ -164,24 +189,22 @@ const Inner = () => {
 };
 
 const InnerHome = () => {
-  const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
+  const { queue, paused, setPaused, reset, clear} = useContext(AppContext);
 
   return (
     <>
         
     <div>
-        <button
-          onClick={() => {
+        <Button onClick={() => {
             setPaused(!paused);
-          } }
+          } } 
+          text={paused ? "Start" : "Pause"}
           disabled={(queue.length < 1)}
-        >
-          {paused ? "Run" : "Pause"}
-        </button>
-        
-        <button onClick={reset}>Reset</button>
+          />
 
-        <button onClick={clear}>Clear</button>
+        <Button onClick={reset} text="End"/>
+
+        <Button onClick={clear} text="Reset"/>
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
