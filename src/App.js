@@ -195,6 +195,10 @@ const InnerHome = () => {
     <>
         
     <div>
+        <p>
+        <Link to="/add">Add to queue</Link>
+        </p>
+
         <Button onClick={() => {
             setPaused(!paused);
           } } 

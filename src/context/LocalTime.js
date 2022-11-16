@@ -39,9 +39,12 @@ const Timer = ({ duration, index, type, isHome }) => {
         }}
       >
         <Button onClick={() => removeItem(index)} style={{display: (isHome === 'no') ? 'inline-block' : 'none'}} text="Remove"/>
-
+        
+        {/* Todo: if XY or Tabata, show Round + Time together */}
         {type} -       
         <DisplayTime time={convertToMinSec(duration)}/>
+
+
         {
             (() => {
                 if(active && type !== 'Countdown'){return (<span> (Progress: {convertToMinSec(time)})</span>)}
