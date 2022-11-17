@@ -77,7 +77,7 @@ const Nav = () => {
 
 const Timer = LocalTime;
 
-const Inner = () => {
+const Inner = (props) => {
   const initialSeconds = 5;
   const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(initialSeconds);
@@ -88,86 +88,11 @@ const Inner = () => {
   const [roundsTabata, setRoundsTabata] = useState(1);
   const [secondsTabata, setSecondsTabata] = useState(initialSeconds);
 
-  return (
-    <>
+  const isHome = props.isHome;
 
-    <div>
-      Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
-        
-        setSecondsStopwatch(e.target.value);
-      } } /> 
-      <button
-        onClick={() => {
-          console.log("stopwatch set", secondsStopwatch);
-
-          addItem({
-            duration: secondsStopwatch,
-            type: 'Stopwatch'
-          });
-        } }
-      >
-        Add
-      </button>
-    </div>
-
-    <div>
-      Countdown <DropdownTime id="selectCountdown" value={secondsCountdown} onChange={(e) => {
-        setSecondsCountdown(e.target.value);
-      } } /> 
-      <button
-        onClick={() => {
-          addItem({
-            duration: secondsCountdown,
-            type: 'Countdown'
-          });
-        } }
-      >
-        Add
-      </button>
-    </div>
-        
-    <div>
-      XY <DropdownRounds id="selectXYRounds" value={roundsXY} onChange={(e) => {
-        setRoundsXY(e.target.value);
-      }}/>
-       &nbsp; @ &nbsp;  
-      <DropdownTime id="selectXY" value={secondsXY} onChange={(e) => {
-        setSecondsXY(e.target.value);
-      } } />  each
-      <button
-        onClick={() => {
-          addItem({
-            duration: secondsXY*roundsXY,
-            type: 'XY'
-          });
-        } }
-      >
-        Add
-      </button>
-    </div>
-
-    <div>
-      Tabata <DropdownRounds id="selectTabataRounds" value={roundsTabata} onChange={(e) => {
-        setRoundsTabata(e.target.value);
-      }}/>
-       &nbsp; @ &nbsp;  
-      <DropdownTime id="selectTabata" value={secondsTabata} onChange={(e) => {
-        setSecondsTabata(e.target.value);
-      } } />  each
-      <button
-        onClick={() => {
-          addItem({
-            duration: secondsTabata*roundsTabata,
-            type: 'Tabata'
-          });
-        } }
-      >
-        Add
-      </button>
-    </div>
-
-
-    <div>
+  function ShowQueue(){
+    return(
+       <div>
         <Button onClick={() => {
             setPaused(!paused);
           } } 
@@ -181,41 +106,104 @@ const Inner = () => {
 
         <div className="queue" style={QueueStyle}>
           {queue.map((t, i) => (
-            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="no"/>
+            <Timer key={i} index={i} duration={t.duration} rounds={t.rounds} type={t.type} isHome={isHome}/>
           ))}
         </div>
-      </div></>
-  );
-};
+      </div>
+    )
+  }
 
-const InnerHome = () => {
-  const { queue, paused, setPaused, reset, clear} = useContext(AppContext);
+  function ShowSelections(){
+    if(isHome === 'yes'){
+      return <Link to="/add">Add</Link>
+    }
 
+    if(isHome === 'no')
+    {
+    return(
+      <>
+      <Link to="/">Home</Link>
+      <div> 
+        Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
+
+          setSecondsStopwatch(e.target.value);
+        } } />
+        <button
+          onClick={() => {
+            console.log("stopwatch set", secondsStopwatch);
+
+            addItem({
+              duration: secondsStopwatch,
+              type: 'Stopwatch'
+            });
+          } }
+        >
+          Add
+        </button>
+      </div><div>
+          Countdown <DropdownTime id="selectCountdown" value={secondsCountdown} onChange={(e) => {
+            setSecondsCountdown(e.target.value);
+          } } />
+          <button
+            onClick={() => {
+              addItem({
+                duration: secondsCountdown,
+                type: 'Countdown'
+              });
+            } }
+          >
+            Add
+          </button>
+        </div><div>
+          XY <DropdownRounds id="selectXYRounds" value={roundsXY} onChange={(e) => {
+            setRoundsXY(e.target.value);
+          } } />
+          &nbsp; @&nbsp;
+          <DropdownTime id="selectXY" value={secondsXY} onChange={(e) => {
+            setSecondsXY(e.target.value);
+          } } />  each
+          <button
+            onClick={() => {
+              addItem({
+                duration: secondsXY * roundsXY,
+                type: 'XY',
+                rounds: roundsXY
+              });
+            } }
+          >
+            Add
+          </button>
+        </div><div>
+          Tabata <DropdownRounds id="selectTabataRounds" value={roundsTabata} onChange={(e) => {
+            setRoundsTabata(e.target.value);
+          } } />
+          &nbsp; @&nbsp;
+          <DropdownTime id="selectTabata" value={secondsTabata} onChange={(e) => {
+            setSecondsTabata(e.target.value);
+          } } />  each
+          <button
+            onClick={() => {
+              addItem({
+                duration: secondsTabata * roundsTabata,
+                type: 'Tabata',
+                rounds: roundsTabata
+              });
+            } }
+          >
+            Add
+          </button>
+        </div></>
+
+    )
+    }
+  }
+  
   return (
     <>
-        
-    <div>
-        <p>
-        <Link to="/add">Add to queue</Link>
-        </p>
-
-        <Button onClick={() => {
-            setPaused(!paused);
-          } } 
-          text={paused ? "Start" : "Pause"}
-          disabled={(queue.length < 1)}
-          />
-
-        <Button onClick={reset} text="End"/>
-
-        <Button onClick={clear} text="Reset"/>
-
-        <div className="queue" style={QueueStyle}>
-          {queue.map((t, i) => (
-            <Timer key={i} index={i} duration={t.duration} type={t.type} isHome="yes"/>
-          ))}
-        </div>
-      </div></>
+    
+    <ShowSelections/>
+    <ShowQueue/>
+    </>
   );
 };
 
@@ -226,10 +214,10 @@ const App = () => {
       <Router>
         <Nav />
         <Routes>
-          <Route path="/" element={<BodyContainer><Body><InnerHome /></Body></BodyContainer>} />
+          <Route path="/" element={<BodyContainer><Body><Inner isHome='yes'/></Body></BodyContainer>} />
           <Route path="/docs" element={<DocumentationView />} />
           <Route path="/timers" element={<TimersView />} />
-          <Route path="/add" element={<BodyContainer><Body><Inner /></Body></BodyContainer>} />
+          <Route path="/add" element={<BodyContainer><Body><Inner isHome='no'/></Body></BodyContainer>} />
         </Routes>
       </Router>
     </Container>
