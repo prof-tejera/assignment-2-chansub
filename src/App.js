@@ -34,7 +34,7 @@ const Body = styled.div`
   border: 1px solid gray;
   padding: 20px;
   margin: 10px;
-  font-size: 1.5rem;
+  font-size: 18px;
   width: 500px;
   text-align: center;
   background-color: lightgrey;
@@ -91,6 +91,11 @@ const Inner = (props) => {
   const isHome = props.isHome;
 
   function ShowQueue(){
+    //.reduce idea from https://bobbyhadz.com/blog/javascript-get-sum-of-array-object-values
+    const totalTime = queue.reduce((accumulator, object) => {
+      return accumulator + object.duration;
+    },0);
+
     return(
        <div>
         <Button onClick={() => {
@@ -105,6 +110,8 @@ const Inner = (props) => {
         <Button onClick={clear} text="Reset"/>
 
         <div className="queue" style={QueueStyle}>
+          {/* Status: TODO |  */}
+          <p><b>Total time:</b> {totalTime}</p>
           {queue.map((t, i) => (
             <Timer key={i} index={i} duration={t.duration} rounds={t.rounds} type={t.type} isHome={isHome}/>
           ))}
@@ -123,9 +130,9 @@ const Inner = (props) => {
     return(
       <>
       <Link to="/">Home</Link>
-      <div> 
+     
+     <div> 
         Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
-
           setSecondsStopwatch(e.target.value);
         } } />
         <button
