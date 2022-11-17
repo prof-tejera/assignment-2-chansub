@@ -11,7 +11,7 @@ import DisplayRounds from "../components/generic/DisplayRounds";
 const Timer = ({ duration, rounds, index, type, isHome }) => {
   const { activeIndex, paused, setPaused, setActiveIndex, removeItem, queue} = useContext(AppContext);
   const [time, setTime] = useState(0);
-  const [activeRound, setActiveRound] = useState(1);
+  //const [activeRound, setActiveRound] = useState(1);
   const active = activeIndex === index; //when activeIndex === index, set active = true
 
   useInterval(() => {

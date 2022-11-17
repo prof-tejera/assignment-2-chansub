@@ -4,11 +4,10 @@ import styled from "styled-components";
 
 import DocumentationView from "./views/DocumentationView";
 import TimersView from "./views/TimersView";
-import HomeView from "./views/HomeView";
 
 import LocalTime from "./context/LocalTime";
 import AppProvider, { AppContext } from "./context/ContextProvider";
-import Dropdown, {DropdownTime, DropdownRounds} from "./components/generic/Dropdown";
+import {DropdownTime, DropdownRounds} from "./components/generic/Dropdown";
 import Button from "./components/generic/Button";
 
 const Container = styled.div`
