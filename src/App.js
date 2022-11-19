@@ -9,6 +9,9 @@ import LocalTime from "./context/LocalTime";
 import AppProvider, { AppContext } from "./context/ContextProvider";
 import {DropdownTime, DropdownRounds} from "./components/generic/Dropdown";
 import Button from "./components/generic/Button";
+import Panel from "./components/generic/Panel";
+import DisplayTime  from "./components/generic/DisplayTime.js";
+import { convertToMinSec } from "./utils/helpers";
 
 const Container = styled.div`
   background: #f0f6fb;
@@ -96,26 +99,30 @@ const Inner = (props) => {
     },0);
 
     return(
-       <div>
+      <Panel>
         <Button onClick={() => {
             setPaused(!paused);
           } } 
           text={paused ? "Start" : "Pause"}
+          type={paused ? "play" : "pause"}
           disabled={(queue.length < 1)}
           />
 
-        <Button onClick={reset} text="End"/>
+        <Button onClick={reset} type="stop" text="End" disabled={(queue.length < 1)}/>
 
-        <Button onClick={clear} text="Reset"/>
+        <Button onClick={clear} type="reset" text="Reset" disabled={(queue.length < 1)}/>
 
-        <div className="queue" style={QueueStyle}>
+        <Panel className="queue" style={QueueStyle}>
           {/* Status: TODO |  */}
-          <p><b>Total time:</b> {totalTime}</p>
+          <p><b>Total time:</b> {convertToMinSec(totalTime)}</p>
+          <DisplayTime time={convertToMinSec(totalTime)}/>
+
           {queue.map((t, i) => (
             <Timer key={i} index={i} duration={t.duration} rounds={t.rounds} type={t.type} isHome={isHome}/>
           ))}
-        </div>
-      </div>
+        </Panel>
+
+      </Panel>
     )
   }
 
@@ -130,7 +137,7 @@ const Inner = (props) => {
       <>
       <Link to="/">Home</Link>
      
-     <div> 
+     <Panel> 
         Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
           setSecondsStopwatch(e.target.value);
         } } />
@@ -146,7 +153,9 @@ const Inner = (props) => {
         >
           Add
         </button>
-      </div><div>
+      </Panel>
+      
+      <Panel>
           Countdown <DropdownTime id="selectCountdown" value={secondsCountdown} onChange={(e) => {
             setSecondsCountdown(e.target.value);
           } } />
@@ -160,11 +169,12 @@ const Inner = (props) => {
           >
             Add
           </button>
-        </div><div>
+        </Panel>
+        <Panel>
           XY <DropdownRounds id="selectXYRounds" value={roundsXY} onChange={(e) => {
             setRoundsXY(e.target.value);
           } } />
-          &nbsp; @&nbsp;
+          &nbsp;@&nbsp;
           <DropdownTime id="selectXY" value={secondsXY} onChange={(e) => {
             setSecondsXY(e.target.value);
           } } />  each
@@ -179,11 +189,12 @@ const Inner = (props) => {
           >
             Add
           </button>
-        </div><div>
+        </Panel>
+        <Panel>
           Tabata <DropdownRounds id="selectTabataRounds" value={roundsTabata} onChange={(e) => {
             setRoundsTabata(e.target.value);
           } } />
-          &nbsp; @&nbsp;
+          &nbsp;@&nbsp;
           <DropdownTime id="selectTabata" value={secondsTabata} onChange={(e) => {
             setSecondsTabata(e.target.value);
           } } />  each
@@ -198,7 +209,7 @@ const Inner = (props) => {
           >
             Add
           </button>
-        </div></>
+        </Panel></>
 
     )
     }

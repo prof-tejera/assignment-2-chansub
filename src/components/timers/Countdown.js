@@ -53,9 +53,9 @@ const Countdown = () => {
             <DisplayTime time={convertToMinSec(seconds)}/>
         </Panel>
         <Panel className="buttons">
-            <Button className={(pause)?'btn-start':'btn-pause'} text={(pause)?'Start':'Pause'} onClick={handlePauseToggle} disabled={(seconds === 0)? true:false}/>
-            <Button className='btn-end' text='End' onClick={handleEnd} disabled={(seconds === 0)||(seconds === initialSeconds)? true:false}/> 
-            <Button className='btn-reset' text='Reset' onClick={handleReset} />
+            <Button className={(pause)?'btn-start':'btn-pause'} type={(pause)?'play':'pause'} text={(pause)?'Start':'Pause'} onClick={handlePauseToggle} disabled={(seconds === 0)? true:false}/>
+            <Button className='btn-end' type='stop' text='End' onClick={handleEnd} disabled={(seconds === 0)||(seconds === initialSeconds)? true:false}/> 
+            <Button className='btn-reset' type='reset' text='Reset' onClick={handleReset} />
         </Panel>
         </>        
     );

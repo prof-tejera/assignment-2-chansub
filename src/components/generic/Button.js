@@ -6,36 +6,34 @@ import stopIcon from '../../images/icons8-stop-96.png';
 import removeIcon from '../../images/icons8-remove-96.png';
 
 //Note: icons downloaded from https://icons8.com
+const imgSources = [  
+  {type: 'play', src: playIcon},
+  {type: 'pause', src: pauseIcon},
+  {type: 'reset', src: resetIcon},
+  {type: 'stop', src: stopIcon},
+  {type: 'remove', src: removeIcon}
+]
 
-const Button = ({ text, ...btnProps }) => {
+const Button = ({ type, text, ...btnProps }) => {
+
+  function renderButton(buttonType,buttonText){
+    let item = imgSources.find(item => item.type === buttonType);
+    if(item){
+      return <img src={item.src} width="30" alt="{buttonText}" title="{buttonText}"/>
+    }
+    else{
+      return buttonText;
+    }
+  }
 
   return (
-
     <button
       {...btnProps}
     >
-      
-    {text === 'Start' &&
-      <img src={playIcon} width="30" alt="Start" title="Start"/>
-    }
-    {text === 'Pause' &&
-      <img src={pauseIcon} width="30" alt="Pause" title="Pause" />
-    }
-    {text === 'End' &&
-      <img src={stopIcon} width="30" alt="End" title="End"/>
-    }
-    {text === 'Reset' &&
-      <img src={resetIcon} width="30" alt="Reset" title="Reset"/>
-    }
-    {text === 'Remove' &&
-      <img src={removeIcon} width="15" alt="Remove" title="Remove"/>
-    }
-
-            
+      {renderButton(type,text)}
     </button>
   );
 };
 
-Button.defaultProps = { text: 'Start', className:'btn-active' }; 
 
 export default Button;

@@ -76,12 +76,10 @@ const Timer = ({ duration, rounds, index, type, isHome }) => {
   return (
 
       <Panel id={'q'+index} className={active ? "yellowBG" : "whiteBG"}>
-
       
-        <Button onClick={() => removeItem(index)} style={{display: (isHome === 'no') ? 'inline-block' : 'none'}} text="Remove"/>
-        
+        <Button onClick={() => removeItem(index)} style={{display: (isHome === 'no') ? 'inline-block' : 'none'}} type="remove" text="Remove"/>
+       
         {type} - <DisplayRoundsTime/> <DisplayProgress/>
-
       
       </Panel>
   );
