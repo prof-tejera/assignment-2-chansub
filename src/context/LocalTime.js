@@ -36,10 +36,10 @@ const Timer = ({ duration, rounds, index, type, isHome }) => {
 
   function DisplayRoundsTime(){
     if(type === 'XY'||(type === 'Tabata')){
-      return <><DisplayRounds rounds={rounds} /> x <DisplayTime time={convertToMinSec(duration/rounds)} /></>
+      return <><DisplayRounds rounds={rounds} /> {(rounds>1)?'rounds':'round'} x <DisplayTime label='' myClassName='noPadding' time={convertToMinSec(duration/rounds)} /></>
     }
     else{
-      return <><DisplayTime time={convertToMinSec(duration)}/></>
+      return <><DisplayTime time={convertToMinSec(duration)}/> seconds</>
     }
   }
 

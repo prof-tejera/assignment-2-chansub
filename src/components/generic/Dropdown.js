@@ -38,6 +38,7 @@ export const DropdownTime = ({ddID, ...props}) => {
   return (
     <select id={props.id} {...props}>
         <option value="5">00:05</option>
+        <option value="10">00:10</option>
         <option value="15">00:15</option>
         <option value="30">00:30</option>
         <option value="45">00:45</option>

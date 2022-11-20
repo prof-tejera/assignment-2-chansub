@@ -16,3 +16,6 @@
 .timeLabel{
     padding-left: 10px;
 }
+.queue .timeLabel{
+    padding: 0px;
+}

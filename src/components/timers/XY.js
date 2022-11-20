@@ -61,7 +61,7 @@ const XY = () => {
         <Panel className="output">
             <Panel>
               <DisplayRounds rounds={rounds}></DisplayRounds>
-              <DisplayTime time={convertToMinSec(seconds)}/>
+              <DisplayTime label="Time:" time={convertToMinSec(seconds)}/>
             </Panel>
         </Panel>
         

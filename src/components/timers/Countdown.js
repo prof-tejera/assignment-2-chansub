@@ -50,7 +50,7 @@ const Countdown = () => {
     return (
         <>
         <Panel className="output">
-            <DisplayTime time={convertToMinSec(seconds)}/>
+            <DisplayTime label="Time:" time={convertToMinSec(seconds)}/>
         </Panel>
         <Panel className="buttons">
             <Button className={(pause)?'btn-start':'btn-pause'} type={(pause)?'play':'pause'} text={(pause)?'Start':'Pause'} onClick={handlePauseToggle} disabled={(seconds === 0)? true:false}/>

@@ -76,8 +76,11 @@ const Nav = () => {
 const Timer = LocalTime;
 
 const Inner = (props) => {
-  const initialSeconds = 5;
-  const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
+  
+  let initialSeconds = 5;
+  const isHome = props.isHome;
+
+  const { queue, addItem, paused, setPaused, reset, clear } = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(initialSeconds);
   const [secondsCountdown, setSecondsCountdown] = useState(initialSeconds);
   
@@ -86,54 +89,12 @@ const Inner = (props) => {
   const [roundsTabata, setRoundsTabata] = useState(1);
   const [secondsTabata, setSecondsTabata] = useState(initialSeconds);
 
-  
-
-  const isHome = props.isHome;
-
-  function ShowQueue(){
-    //.reduce idea from https://bobbyhadz.com/blog/javascript-get-sum-of-array-object-values
-    const totalDuration = queue.reduce((accumulator, object) => {
-      return parseInt(accumulator) + parseInt(object.duration);
-    },0);
-
-    
-
-    return(
-      <Panel>
-        <Button onClick={() => {
-            setPaused(!paused);
-          } } 
-          text={paused ? "Start" : "Pause"}
-          type={paused ? "play" : "pause"}
-          disabled={(queue.length < 1)}
-          />
-
-        <Button onClick={reset} type="stop" text="End" disabled={(queue.length < 1)}/>
-
-        <Button onClick={clear} type="reset" text="Reset" disabled={(queue.length < 1)}/>
-
-        <Panel className="queue" style={QueueStyle}>
-
-          <Panel className="output">
-            <DisplayTime label="Total Time:" time={convertToMinSec(totalDuration)}/>
-          </Panel>
-
-          {queue.map((t, i) => (
-            <Timer key={i} index={i} duration={t.duration} rounds={t.rounds} type={t.type} isHome={isHome}/>
-          ))}
-        </Panel>
-
-      </Panel>
-    )
-  }
-
   function ShowSelections(){
     if(isHome === 'yes'){
       return <Link to="/add">Add</Link>
     }
+    if(isHome === 'no'){
 
-    if(isHome === 'no')
-    {
     return(
       <>
       <Link to="/">Home</Link>
@@ -144,7 +105,6 @@ const Inner = (props) => {
           } } />
           <Button text="Add"
             onClick={() => {
-              console.log("stopwatch set", secondsStopwatch);
               addItem({
                 duration: secondsStopwatch,
                 type: 'Stopwatch'
@@ -207,17 +167,51 @@ const Inner = (props) => {
             } }
           >
           </Button>
+
         </Panel></>
     )
     }
   }
-  
+
+  function ShowTotalDuration(){
+    const totalDuration = queue.reduce((accumulator, object) => {
+      return parseInt(accumulator) + parseInt(object.duration);
+    },0);
+
+    return(
+      <Panel className="output">
+            <DisplayTime label="Total Time:" time={convertToMinSec(totalDuration)}/>
+      </Panel>
+    )
+  }
+
   return (
-    <>
-    
-    <ShowSelections/>
-    <ShowQueue/>
-    </>
+    <div>
+        
+        <ShowSelections/>
+
+        <ShowTotalDuration/>
+
+        {/* Show Queue*/}
+        <Button onClick={() => {
+              setPaused(!paused);
+            } } 
+            text={paused ? "Start" : "Pause"}
+            type={paused ? "play" : "pause"}
+            disabled={(queue.length < 1)}
+        />
+
+        <Button onClick={reset} type="stop" text="End" disabled={(queue.length < 1)}/>
+
+        <Button onClick={clear} type="reset" text="Reset" disabled={(queue.length < 1)}/>
+
+        <div className="queue" style={QueueStyle}>
+          {queue.map((t, i) => (
+            <Timer key={i} index={i} duration={t.duration} rounds={t.rounds} type={t.type} isHome={isHome}/>
+          ))}
+        </div>  
+
+    </div>
   );
 };
 
