@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/assignment-2-chansub/static/css/main.3af9c10a.css",
-    "main.js": "/assignment-2-chansub/static/js/main.5abf0f8d.js",
+    "main.css": "/assignment-2-chansub/static/css/main.00a1c101.css",
+    "main.js": "/assignment-2-chansub/static/js/main.da145d6f.js",
     "static/media/digital-7-webfont.woff": "/assignment-2-chansub/static/media/digital-7-webfont.a39e8284564685c1ec0e.woff",
     "static/media/digital-7-webfont.woff2": "/assignment-2-chansub/static/media/digital-7-webfont.e5cb4cd5732d3f0b7564.woff2",
     "index.html": "/assignment-2-chansub/index.html",
-    "main.3af9c10a.css.map": "/assignment-2-chansub/static/css/main.3af9c10a.css.map",
-    "main.5abf0f8d.js.map": "/assignment-2-chansub/static/js/main.5abf0f8d.js.map"
+    "main.00a1c101.css.map": "/assignment-2-chansub/static/css/main.00a1c101.css.map",
+    "main.da145d6f.js.map": "/assignment-2-chansub/static/js/main.da145d6f.js.map"
   },
   "entrypoints": [
-    "static/css/main.3af9c10a.css",
-    "static/js/main.5abf0f8d.js"
+    "static/css/main.00a1c101.css",
+    "static/js/main.da145d6f.js"
   ]
 }
