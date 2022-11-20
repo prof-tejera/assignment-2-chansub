@@ -1,13 +1,10 @@
 import React from "react";
-
-const myStyle = {
-    paddingLeft: '5px'
-}
+import "./DisplayTime.css";
 
 const DisplayTime = (props) => {
   
     return (
-        <><span style={myStyle}>Time: </span><span className="numbers">{props.time}</span></>
+        <><span className="timeLabel">{props.label ? props.label : 'Time:'} </span><span className="numbers">{props.time}</span></>
     );
 };
 

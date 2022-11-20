@@ -24,14 +24,11 @@ const myStyle = {
 const QueueStyle = {
   fontSize: "14px"
 }
-
-
 const BodyContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
 `;
-
 const Body = styled.div`
   border: 1px solid gray;
   padding: 20px;
@@ -42,7 +39,6 @@ const Body = styled.div`
   background-color: lightgrey;
   border-radius: 3%;
 `;
-
 
 const Nav = () => {
   //idea from https://medium.com/how-to-react/add-an-active-classname-to-the-link-using-react-router-b7c350473916
@@ -81,7 +77,7 @@ const Timer = LocalTime;
 
 const Inner = (props) => {
   const initialSeconds = 5;
-  const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
+  const { queue, addItem, paused, setPaused, reset, clear, progressTime, activeIndex} = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(initialSeconds);
   const [secondsCountdown, setSecondsCountdown] = useState(initialSeconds);
   
@@ -90,13 +86,17 @@ const Inner = (props) => {
   const [roundsTabata, setRoundsTabata] = useState(1);
   const [secondsTabata, setSecondsTabata] = useState(initialSeconds);
 
+  
+
   const isHome = props.isHome;
 
   function ShowQueue(){
     //.reduce idea from https://bobbyhadz.com/blog/javascript-get-sum-of-array-object-values
-    const totalTime = queue.reduce((accumulator, object) => {
-      return accumulator + object.duration;
+    const totalDuration = queue.reduce((accumulator, object) => {
+      return parseInt(accumulator) + parseInt(object.duration);
     },0);
+
+    
 
     return(
       <Panel>
@@ -113,9 +113,10 @@ const Inner = (props) => {
         <Button onClick={clear} type="reset" text="Reset" disabled={(queue.length < 1)}/>
 
         <Panel className="queue" style={QueueStyle}>
-          {/* Status: TODO |  */}
-          <p><b>Total time:</b> {convertToMinSec(totalTime)}</p>
-          <DisplayTime time={convertToMinSec(totalTime)}/>
+
+          <Panel className="output">
+            <DisplayTime label="Total Time:" time={convertToMinSec(totalDuration)}/>
+          </Panel>
 
           {queue.map((t, i) => (
             <Timer key={i} index={i} duration={t.duration} rounds={t.rounds} type={t.type} isHome={isHome}/>
@@ -137,29 +138,27 @@ const Inner = (props) => {
       <>
       <Link to="/">Home</Link>
      
-     <Panel> 
-        Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
-          setSecondsStopwatch(e.target.value);
-        } } />
-        <button
-          onClick={() => {
-            console.log("stopwatch set", secondsStopwatch);
-
-            addItem({
-              duration: secondsStopwatch,
-              type: 'Stopwatch'
-            });
-          } }
-        >
-          Add
-        </button>
-      </Panel>
+        <Panel> 
+          Stopwatch <DropdownTime id="selectStopwatch" value={secondsStopwatch} onChange={(e) => {
+            setSecondsStopwatch(e.target.value);
+          } } />
+          <Button text="Add"
+            onClick={() => {
+              console.log("stopwatch set", secondsStopwatch);
+              addItem({
+                duration: secondsStopwatch,
+                type: 'Stopwatch'
+              });
+            } }
+          >
+          </Button>
+        </Panel>
       
-      <Panel>
+        <Panel>
           Countdown <DropdownTime id="selectCountdown" value={secondsCountdown} onChange={(e) => {
             setSecondsCountdown(e.target.value);
           } } />
-          <button
+          <Button text="Add"
             onClick={() => {
               addItem({
                 duration: secondsCountdown,
@@ -167,9 +166,9 @@ const Inner = (props) => {
               });
             } }
           >
-            Add
-          </button>
+          </Button>
         </Panel>
+
         <Panel>
           XY <DropdownRounds id="selectXYRounds" value={roundsXY} onChange={(e) => {
             setRoundsXY(e.target.value);
@@ -178,7 +177,7 @@ const Inner = (props) => {
           <DropdownTime id="selectXY" value={secondsXY} onChange={(e) => {
             setSecondsXY(e.target.value);
           } } />  each
-          <button
+          <Button text="Add"
             onClick={() => {
               addItem({
                 duration: secondsXY * roundsXY,
@@ -187,9 +186,9 @@ const Inner = (props) => {
               });
             } }
           >
-            Add
-          </button>
+          </Button>
         </Panel>
+
         <Panel>
           Tabata <DropdownRounds id="selectTabataRounds" value={roundsTabata} onChange={(e) => {
             setRoundsTabata(e.target.value);
@@ -198,7 +197,7 @@ const Inner = (props) => {
           <DropdownTime id="selectTabata" value={secondsTabata} onChange={(e) => {
             setSecondsTabata(e.target.value);
           } } />  each
-          <button
+          <Button text="Add"
             onClick={() => {
               addItem({
                 duration: secondsTabata * roundsTabata,
@@ -207,10 +206,8 @@ const Inner = (props) => {
               });
             } }
           >
-            Add
-          </button>
+          </Button>
         </Panel></>
-
     )
     }
   }

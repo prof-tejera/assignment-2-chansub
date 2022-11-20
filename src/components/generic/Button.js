@@ -19,7 +19,7 @@ const Button = ({ type, text, ...btnProps }) => {
   function renderButton(buttonType,buttonText){
     let item = imgSources.find(item => item.type === buttonType);
     if(item){
-      return <img src={item.src} width="30" alt="{buttonText}" title="{buttonText}"/>
+      return <img src={item.src} width="30" alt={buttonText} title={buttonText}/>
     }
     else{
       return buttonText;
