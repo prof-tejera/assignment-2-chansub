@@ -77,7 +77,7 @@ const Timer = LocalTime;
 
 const Inner = (props) => {
   const initialSeconds = 5;
-  const { queue, addItem, paused, setPaused, reset, clear, progressTime, activeIndex} = useContext(AppContext);
+  const { queue, addItem, paused, setPaused, reset, clear} = useContext(AppContext);
   const [secondsStopwatch, setSecondsStopwatch] = useState(initialSeconds);
   const [secondsCountdown, setSecondsCountdown] = useState(initialSeconds);
   
