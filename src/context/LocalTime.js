@@ -39,11 +39,13 @@ const Timer = ({ duration, rounds, index, type, isHome }) => {
       return <><DisplayRounds rounds={rounds} /> {(rounds>1)?'rounds':'round'} x <DisplayTime label='' myClassName='noPadding' time={convertToMinSec(duration/rounds)} /></>
     }
     else{
-      return <><DisplayTime time={convertToMinSec(duration)}/> seconds</>
+      return <><DisplayTime time={convertToMinSec(duration)}/></>
     }
   }
 
   function DisplayProgress(){
+    const [myActiveRound, setMyActiveRound] = useState(0);
+
     if(!active) return;
 
     if(active && type === 'Countdown'){
@@ -51,15 +53,12 @@ const Timer = ({ duration, rounds, index, type, isHome }) => {
     }
     else if(active && (type==='XY' || type==='Tabata')){
  
-      //TODO: why won't this work? Tried to increase myActiveRound based on the progress
-      let myActiveRound = 1;
-      // const timePerRound = duration/rounds;
-      // let timeSoFar = duration-time;  //10
-      
-      // if((timePerRound*myActiveRound < timeSoFar) && (timeSoFar < duration)){
-      //    myActiveRound = myActiveRound+1;
-      // }
-
+      let timePerRound = duration/rounds;
+      let timeSoFar = duration-time;  
+ 
+      if((timePerRound*myActiveRound < time) && (timeSoFar < duration)){
+         setMyActiveRound(myActiveRound+1);
+      }
       return (<span> ({myActiveRound} of {rounds} Progress: {convertToMinSec(time)})</span>)
     }
     else{
